@@ -90,18 +90,47 @@ which.max(summary.out$adjr2)
 ```
 
 ```{r}
-summary.out$which[2,]
+summary.out$which[3,]
 ```
 
 Here in this summary we can see instead of the Length 1 instead its Length 2, Height and Width.  
 
-So in the Adjusted R^2 we can see the differnce in the plots. 
+So in the Adjusted R^2 we can see the difference in the plots. 
 
 
+# Smelt
 
+```{r}
+smelt <- filter(allthat,Species == "Smelt")
+smelt <- select(smelt,-1)
+```
 
+```{r}
+library(leaps)
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = smelt,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
 
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
 
+We can see that this is a very close graph, with all the plots together. Although we can see the highest one Length 1, Length 2, Height, and Width. 
 
+```{r}
+which.max(summary.out$adjr2)
+```
 
+```{r}
+summary.out$which[4,]
+```
+
+We can see with the summary chart that the Length 2, Length 1, Height, and Width. 
+Making the Adjusted R^2 graph correct. 
 
