@@ -58,3 +58,50 @@ summary.out$which[2,]
 ```
 
 From the summary chart we can see the two best plots are indeed Height and Width for the perch fish. 
+
+
+# Bream 
+
+```{r}
+bream <- filter(allthat,Species == "Bream")
+bream <- select(bream,-1)
+```
+
+```{r}
+library(leaps)
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = bream,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+
+The three main plots for this chart of the Adjusted R^2 it is, Length 1, Height, and Width. 
+
+```{r}
+which.max(summary.out$adjr2)
+```
+
+```{r}
+summary.out$which[2,]
+```
+
+Here in this summary we can see instead of the Length 1 instead its Length 2, Height and Width.  
+
+So in the Adjusted R^2 we can see the differnce in the plots. 
+
+
+
+
+
+
+
+
+
